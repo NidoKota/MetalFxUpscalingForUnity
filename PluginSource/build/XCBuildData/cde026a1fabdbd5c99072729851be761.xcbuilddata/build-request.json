@@ -1,0 +1,46 @@
+{
+  "buildCommand" : {
+    "command" : "prepareForIndexing",
+    "enableIndexBuildArena" : false,
+    "targets" : null
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "6509f2936be03dec3efb2e7fea1aa1219ac6fc44cf2433b685ce213945446575"
+    }
+  ],
+  "containerPath" : "/Users/s22885/Desktop/UpscaleTest/PluginSource/projects/Xcode/RenderingPlugin.xcodeproj",
+  "continueBuildingAfterErrors" : true,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "",
+      "buildProductsPath" : "",
+      "derivedDataPath" : "/Users/s22885/Library/Developer/Xcode/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/s22885/Library/Developer/Xcode/DerivedData/RenderingPlugin-aymwasxrhhdzjuatvavthsqefegc/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/s22885/Library/Developer/Xcode/DerivedData/RenderingPlugin-aymwasxrhhdzjuatvavthsqefegc/Index.noindex/PrecompiledHeaders",
+      "pchPath" : ""
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "qos" : "default",
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : true,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
