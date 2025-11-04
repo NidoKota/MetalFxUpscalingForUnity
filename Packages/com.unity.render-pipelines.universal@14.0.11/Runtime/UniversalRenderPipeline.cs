@@ -1193,7 +1193,7 @@ namespace UnityEngine.Rendering.Universal
             // ===== CUSTOM MODIFICATION START =====
             // Modified by: Matsubara on 2025/08/23
             // else if ((cameraData.renderScale < 1.0f) || (!isScenePreviewOrReflectionCamera && (cameraData.upscalingFilter == ImageUpscalingFilter.FSR)))
-            else if ((cameraData.renderScale < 1.0f) || (!isScenePreviewOrReflectionCamera && (cameraData.upscalingFilter is ImageUpscalingFilter.FSR or ImageUpscalingFilter.MTLFXSpatialScaler))) 
+            else if ((cameraData.renderScale < 1.0f) || (!isScenePreviewOrReflectionCamera && (cameraData.upscalingFilter is ImageUpscalingFilter.FSR or ImageUpscalingFilter.MTLFXSpatialScalar))) 
             // ===== CUSTOM MODIFICATION END =====
             {
                 // When FSR is enabled, we still consider 100% render scale an upscaling operation. (This behavior is only intended for game view cameras)
@@ -1800,7 +1800,7 @@ namespace UnityEngine.Rendering.Universal
                 // Modified by: Matsubara on 2025/08/23
                 case UpscalingFilterSelection.MTLFXSpatialScaler:
                 {
-                    filter = ImageUpscalingFilter.MTLFXSpatialScaler;
+                    filter = ImageUpscalingFilter.MTLFXSpatialScalar;
 
                     break;
                 }

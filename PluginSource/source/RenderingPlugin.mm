@@ -28,7 +28,7 @@ id<MTLCommandQueue>    g_CommandQueue;
 id<MTLFXSpatialScaler> g_SpatialScaler;
 MTLFXSpatialScalerColorProcessingMode g_ColorProcessingMode;
 
-extern "C" int Test ()
+extern "C" int Test()
 {
     return 123;
 }
@@ -141,7 +141,7 @@ void ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInterfaces* interfac
 
 void Upscale()
 {
-//    LOG("log by objective-cpp");
+    LOG("log by objective-cpp aaaaaaiiiiiiuuuu");
     
     id<MTLTexture> tex = (__bridge id<MTLTexture>)g_TextureHandle;
     id<MTLTexture> upscaledTex = (__bridge id<MTLTexture>)g_UpscaledTextureHandle;
@@ -184,9 +184,12 @@ void Upscale()
         g_SpatialScaler = [desc newSpatialScalerWithDevice:g_Device];
     }
     
-    if (upscaledTex && g_SpatialScaler)
+    if (upscaledTex && g_SpatialScaler && g_MetalGraphics)
     {
+        g_MetalGraphics->EndCurrentCommandEncoder();
+        
         id<MTLCommandBuffer> commandBuffer = [g_CommandQueue commandBuffer];
+        //id<MTLCommandBuffer> commandBuffer = g_MetalGraphics->CurrentCommandBuffer();
         if (commandBuffer)
         {
             g_SpatialScaler.colorTexture = tex;

@@ -7,7 +7,7 @@ using UnityEngine.Experimental.Rendering.RenderGraphModule;
 
 namespace UnityEngine.Rendering.Universal
 {
-    public static class MtrFxSpatialScalerUtils
+    public static class MtrFxSpatialScalarUtils
     {
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void LogCallbackInternal([MarshalAs(UnmanagedType.LPStr)] string message);
@@ -39,7 +39,7 @@ namespace UnityEngine.Rendering.Universal
         private static extern void SetTextureFromUnity(
             nint texture, int w, int h, 
             nint upscaled, int upscaledW, int upscaledH,
-            MtlFxSpatialScalerColorProcessingMode colorProcessingMode);
+            MtlFxSpatialScalarColorProcessingMode colorProcessingMode);
         
 #if (PLATFORM_IOS || PLATFORM_TVOS || PLATFORM_BRATWURST || PLATFORM_SWITCH) && !UNITY_EDITOR
         [DllImport("__Internal")]
@@ -62,7 +62,7 @@ namespace UnityEngine.Rendering.Universal
 #endif
         private static extern int Test();
 
-        static MtrFxSpatialScalerUtils()
+        static MtrFxSpatialScalarUtils()
         {
             _logCallbackInternalHandle = GCHandle.Alloc((LogCallbackInternal)CallLogCallbackInternal);
             _logErrorCallbackInternalHandle = GCHandle.Alloc((LogErrorCallbackInternal)CallLogErrorCallbackInternal);
@@ -84,7 +84,7 @@ namespace UnityEngine.Rendering.Universal
             nint upscaledPtr, 
             Vector2 inputSize, 
             Vector2 outputSize,
-            MtlFxSpatialScalerColorProcessingMode colorProcessingMode)
+            MtlFxSpatialScalarColorProcessingMode colorProcessingMode)
         {
             // using (new ProfilingScope(cmd, new ProfilingSampler(ProfilerTag)))
             {

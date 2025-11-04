@@ -77,7 +77,7 @@ namespace UnityEngine.Rendering.Universal
         // ===== CUSTOM MODIFICATION START =====
         // Modified by: Matsubara on 2025/08/23
         ,
-        MTLFXSpatialScaler
+        MTLFXSpatialScalar
         // ===== CUSTOM MODIFICATION END =====
     }
 

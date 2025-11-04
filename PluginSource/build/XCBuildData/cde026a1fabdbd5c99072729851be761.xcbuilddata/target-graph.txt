@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'RenderingPlugin' in project 'RenderingPlugin' (no dependencies)

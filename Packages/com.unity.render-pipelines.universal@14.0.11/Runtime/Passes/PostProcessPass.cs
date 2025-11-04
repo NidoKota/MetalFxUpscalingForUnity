@@ -1416,7 +1416,7 @@ namespace UnityEngine.Rendering.Universal
             bool isFsrEnabled = ((cameraData.imageScalingMode == ImageScalingMode.Upscaling) && (cameraData.upscalingFilter == ImageUpscalingFilter.FSR));
             // ===== CUSTOM MODIFICATION START =====
             // Modified by: Matsubara on 2025/08/23
-            bool isMtrFxSpatialScalerEnabled = ((cameraData.imageScalingMode == ImageScalingMode.Upscaling) && (cameraData.upscalingFilter == ImageUpscalingFilter.MTLFXSpatialScaler));
+            bool isMtrFxSpatialScalarEnabled = ((cameraData.imageScalingMode == ImageScalingMode.Upscaling) && (cameraData.upscalingFilter == ImageUpscalingFilter.MTLFXSpatialScalar));
             // ===== CUSTOM MODIFICATION END =====
 
             // Reuse RCAS pass as an optional standalone post sharpening pass for TAA.
@@ -1425,7 +1425,7 @@ namespace UnityEngine.Rendering.Universal
             // ===== CUSTOM MODIFICATION START =====
             // Modified by: Matsubara on 2025/08/23
             // bool isTaaSharpeningEnabled = (cameraData.IsTemporalAAEnabled() && cameraData.taaSettings.contrastAdaptiveSharpening > 0.0f) && !isFsrEnabled;
-            bool isTaaSharpeningEnabled = (cameraData.IsTemporalAAEnabled() && cameraData.taaSettings.contrastAdaptiveSharpening > 0.0f) && (!isFsrEnabled && !isMtrFxSpatialScalerEnabled);
+            bool isTaaSharpeningEnabled = (cameraData.IsTemporalAAEnabled() && cameraData.taaSettings.contrastAdaptiveSharpening > 0.0f) && (!isFsrEnabled && !isMtrFxSpatialScalarEnabled);
             // ===== CUSTOM MODIFICATION END =====
 
             if (cameraData.imageScalingMode != ImageScalingMode.None)
@@ -1439,7 +1439,7 @@ namespace UnityEngine.Rendering.Universal
                 // ===== CUSTOM MODIFICATION START =====
                 // Modified by: Matsubara on 2025/09/02
                 // bool isSetupRequired = (isFxaaEnabled || isFsrEnabled);
-                bool isSetupRequired = (isFxaaEnabled || isFsrEnabled || isMtrFxSpatialScalerEnabled);
+                bool isSetupRequired = (isFxaaEnabled || isFsrEnabled || isMtrFxSpatialScalarEnabled);
                 // ===== CUSTOM MODIFICATION END =====
 
                 // Make sure to remove any MSAA and attached depth buffers from the temporary render targets
@@ -1466,7 +1466,7 @@ namespace UnityEngine.Rendering.Universal
                     }
                     // ===== CUSTOM MODIFICATION START =====
                     // Modified by: Matsubara on 2025/08/23
-                    else if  (isFxaaEnabled && isMtrFxSpatialScalerEnabled)
+                    else if  (isFxaaEnabled && isMtrFxSpatialScalarEnabled)
                     // ===== CUSTOM MODIFICATION END =====
                     {
                         // TODO : 本当はガンマ変換後にアプスケする必要がある
@@ -1483,7 +1483,7 @@ namespace UnityEngine.Rendering.Universal
                     }
                     // ===== CUSTOM MODIFICATION START =====
                     // Modified by: Matsubara on 2025/08/23
-                    else if (isMtrFxSpatialScalerEnabled)
+                    else if (isMtrFxSpatialScalarEnabled)
                     {
                         // TODO : 本当はガンマ変換後にアプスケする必要がある
                         m_Materials.scalingSetup.EnableKeyword(ShaderKeywordStrings.Gamma20);
@@ -1557,13 +1557,13 @@ namespace UnityEngine.Rendering.Universal
                             
                             // ===== CUSTOM MODIFICATION START =====
                             // Modified by: Matsubara on 2025/08/23
-                            case ImageUpscalingFilter.MTLFXSpatialScaler:
+                            case ImageUpscalingFilter.MTLFXSpatialScalar:
                             {
                                 var upscaleRtDesc = tempRtDesc;
                                 upscaleRtDesc.width = cameraData.pixelWidth;
                                 upscaleRtDesc.height = cameraData.pixelHeight;
                                 
-                                MtrFxSpatialScalerUtils.ReAllocatePrivateTextureIfNeeded(
+                                MtrFxSpatialScalarUtils.ReAllocatePrivateTextureIfNeeded(
                                     ref m_Test,
                                     upscaleRtDesc.width,
                                     upscaleRtDesc.height,
@@ -1574,13 +1574,13 @@ namespace UnityEngine.Rendering.Universal
                                 var fsrInputSize = new Vector2(cameraData.cameraTargetDescriptor.width, cameraData.cameraTargetDescriptor.height);
                                 var fsrOutputSize = new Vector2(cameraData.pixelWidth, cameraData.pixelHeight);
                                 
-                                MtrFxSpatialScalerUtils.DoUpscale(
+                                MtrFxSpatialScalarUtils.DoUpscale(
                                     cmd, 
                                     sourceTex.rt.GetNativeTexturePtr(),
                                     ((Texture)m_Test).GetNativeTexturePtr(), 
                                     fsrInputSize, 
                                     fsrOutputSize,
-                                    MtlFxSpatialScalerColorProcessingMode.MTLFXSpatialScalerColorProcessingModePerceptual);
+                                    MtlFxSpatialScalarColorProcessingMode.MTLFXSpatialScalarColorProcessingModePerceptual);
                                 
                                 Blitter.BlitCameraTexture(cmd, m_Test, m_UpscaledTarget, colorLoadAction, RenderBufferStoreAction.Store, m_Materials.easu, 1);
                                 
@@ -1594,13 +1594,13 @@ namespace UnityEngine.Rendering.Universal
                                 var fsrInputSize = new Vector2(cameraData.cameraTargetDescriptor.width, cameraData.cameraTargetDescriptor.height);
                                 var fsrOutputSize = new Vector2(cameraData.pixelWidth, cameraData.pixelHeight);
                                 
-                                MtrFxSpatialScalerUtils.DoUpscale(
+                                MtrFxSpatialScalarUtils.DoUpscale(
                                     cmd, 
                                     sourceTex.rt.GetNativeTexturePtr(),
                                     m_UpscaledTarget.rt.GetNativeTexturePtr(), 
                                     fsrInputSize, 
                                     fsrOutputSize,
-                                    MtlFxSpatialScalerColorProcessingMode.MTLFXSpatialScalerColorProcessingModePerceptual);
+                                    MtlFxSpatialScalarColorProcessingMode.MTLFXSpatialScalarColorProcessingModePerceptual);
                                 
                                 Blitter.BlitCameraTexture(cmd, m_UpscaledTarget, m_Test, colorLoadAction, RenderBufferStoreAction.Store, m_Materials.easu, 1);
                                
