@@ -22,7 +22,7 @@ void* g_UpscaledTextureHandle = NULL;
 int   g_UpscaledTextureWidth  = 0;
 int   g_UpscaledTextureHeight = 0;
 
-IUnityGraphicsMetal*   g_MetalGraphics;
+IUnityGraphicsMetalV2* g_MetalGraphics;
 id<MTLDevice>          g_Device;
 id<MTLCommandQueue>    g_CommandQueue;
 id<MTLFXSpatialScaler> g_SpatialScaler;
@@ -65,14 +65,15 @@ extern "C" id<MTLTexture> UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API CreatePriva
     desc.storageMode = MTLStorageModePrivate;
     desc.textureType = MTLTextureType2D;
     desc.mipmapLevelCount = 1;
-    return [g_Device newTextureWithDescriptor:desc];
+    id<MTLTexture> result = [g_Device newTextureWithDescriptor:desc];
+    return result;
 }
 
 // --------------------------------------------------------------------------
 // UnitySetInterfaces
 
 void UNITY_INTERFACE_API OnGraphicsDeviceEvent(UnityGfxDeviceEventType eventType);
-void ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInterfaces* interfaces);
+void ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInterfaces* interfacesinterfaces);
 
 IUnityInterfaces* s_UnityInterfaces = NULL;
 IUnityGraphics* s_Graphics = NULL;
@@ -124,10 +125,10 @@ void ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInterfaces* interfac
 {
     if (type == kUnityGfxDeviceEventInitialize)
     {
-        g_MetalGraphics = interfaces->Get<IUnityGraphicsMetal>();
+        g_MetalGraphics = interfaces->Get<IUnityGraphicsMetalV2>();
         
         g_Device = g_MetalGraphics->MetalDevice();
-        g_CommandQueue = [g_Device newCommandQueue];
+        g_CommandQueue = g_MetalGraphics->CommandQueue();
         
         CreateResources();
     }
@@ -141,7 +142,7 @@ void ProcessDeviceEvent(UnityGfxDeviceEventType type, IUnityInterfaces* interfac
 
 void Upscale()
 {
-    LOG("log by objective-cpp aaaaaaiiiiiiuuuu");
+    LOG("log by objective-cpp vvv");
     
     id<MTLTexture> tex = (__bridge id<MTLTexture>)g_TextureHandle;
     id<MTLTexture> upscaledTex = (__bridge id<MTLTexture>)g_UpscaledTextureHandle;
@@ -188,16 +189,13 @@ void Upscale()
     {
         g_MetalGraphics->EndCurrentCommandEncoder();
         
-        id<MTLCommandBuffer> commandBuffer = [g_CommandQueue commandBuffer];
-        //id<MTLCommandBuffer> commandBuffer = g_MetalGraphics->CurrentCommandBuffer();
+        id<MTLCommandBuffer> commandBuffer = g_MetalGraphics->CurrentCommandBuffer();
+        
         if (commandBuffer)
         {
             g_SpatialScaler.colorTexture = tex;
             g_SpatialScaler.outputTexture = upscaledTex;
             [g_SpatialScaler encodeToCommandBuffer:commandBuffer];
-            
-            [commandBuffer commit];
-            [commandBuffer waitUntilCompleted];
         }
     }
 }
