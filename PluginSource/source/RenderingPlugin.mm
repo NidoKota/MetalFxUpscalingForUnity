@@ -187,15 +187,20 @@ void Upscale()
     
     if (upscaledTex && g_SpatialScaler && g_MetalGraphics)
     {
+        // Unityの現在のエンコーダを終了
         g_MetalGraphics->EndCurrentCommandEncoder();
         
+        // Unityの現在のコマンドバッファを取得
         id<MTLCommandBuffer> commandBuffer = g_MetalGraphics->CurrentCommandBuffer();
         
         if (commandBuffer)
         {
+            // SpatialScalerにコマンドをエンコード
             g_SpatialScaler.colorTexture = tex;
             g_SpatialScaler.outputTexture = upscaledTex;
             [g_SpatialScaler encodeToCommandBuffer:commandBuffer];
+            
+            // コミットと実行はUnity側にやってもらう
         }
     }
 }
